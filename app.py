@@ -16,18 +16,72 @@ database = "Chan" #RDS DB내에서 연결하고싶은 데이터베이스 이름�
 #workbench연결만 하신분들은 workbench에 들어가서 연결해둔 aws rds에 접속하여 CREATE DATABASE name 하시면 생성됩니다.
 password = "kch43214782"
 
+def connect_to_mysql():
+    conn = pymysql.connect(host=host, port=port, user=username, passwd=password, db=database, charset='utf8')
+    cursor = conn.cursor()
+    return conn, cursor
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main():
     error = None
-    return "Hello Flask"
 
+    if request.method == 'POST':
+        id = request.form['id']
+        pw = request.form['pw']
+ 
+        conn, cursor = connect_to_mysql()
+        cursor = conn.cursor()
+        sql = "SELECT id FROM users WHERE id = %s AND pw = %s"
+        value = (id, pw)
+        cursor.execute("set names utf8")
+        cursor.execute(sql, value)
 
+        data = cursor.fetchall()
+        cursor.close()
+        conn.close()
+ 
+        for row in data:
+            data = row[0]
+ 
+        if data:
+            session['login_user'] = id
+            return redirect(url_for('home'))
+        else:
+            error = 'invalid input data detected !'
+    return render_template('main.html', error = error)
 
-
-
-
+@app.route('/register.html', methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+        id = request.form['regi_id']
+        pw = request.form['regi_pw']
+ 
+        conn, cursor = connect_to_mysql()
+        cursor = conn.cursor()
+ 
+        sql = "INSERT INTO login VALUES ('%s', '%s')" % (id, pw)
+        cursor.execute(sql)
+ 
+        data = cursor.fetchall()
+ 
+        if not data:
+            conn.commit()
+            return redirect(url_for('main'))
+        else:
+            conn.rollback()
+            return "Register Failed"
+ 
+        cursor.close()
+        conn.close()
+    return render_template('register.html', error=error)
+ 
+@app.route('/home.html', methods=['GET', 'POST'])
+def home():
+    error = None
+    id = session['login_user']
+    return render_template('home.html', error=error, name=id)
 
 
 
