@@ -7,7 +7,7 @@ import csv, pymysql, logging
 
 from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
-
+app.secret_key = "your_secret_key"
 
 host = "database-1.c1u44syskgrt.ap-northeast-2.rds.amazonaws.com" #mysql workbench에 연결할 때 썼던 그 aws엔드포인트입니다.
 port = 3306 #포트번호는 손대지않으셨다면 3306 고정
@@ -27,13 +27,13 @@ def main():
     error = None
 
     if request.method == 'POST':
-        id = request.form['id']
-        pw = request.form['pw']
+        U_id = request.form['U_id']
+        U_pw = request.form['U_pw']
  
         conn, cursor = connect_to_mysql()
         cursor = conn.cursor()
-        sql = "SELECT id FROM users WHERE id = %s AND pw = %s"
-        value = (id, pw)
+        sql = "SELECT U_id FROM login WHERE U_id = %s AND U_pw = %s"
+        value = (U_id, U_pw)
         cursor.execute("set names utf8")
         cursor.execute(sql, value)
 
@@ -45,25 +45,26 @@ def main():
             data = row[0]
  
         if data:
-            session['login_user'] = id
+            session['login_user'] = U_id
             return redirect(url_for('home'))
         else:
             error = 'invalid input data detected !'
     return render_template('main.html', error = error)
 
-@app.route('/register.html', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
     if request.method == 'POST':
-        id = request.form['regi_id']
-        pw = request.form['regi_pw']
- 
+        U_id = request.form['U_id']
+        U_pw = request.form['U_pw']
         conn, cursor = connect_to_mysql()
         cursor = conn.cursor()
  
-        sql = "INSERT INTO login VALUES ('%s', '%s')" % (id, pw)
-        cursor.execute(sql)
- 
+        sql = "INSERT INTO login (U_id, U_pw) VALUES (%s, %s)" 
+        cursor.execute(sql,(U_id, U_pw))
+        conn.commit()
+        print("로그인 데이터가 성공적으로 삽입되었습니다.")
+
         data = cursor.fetchall()
  
         if not data:
@@ -77,11 +78,11 @@ def register():
         conn.close()
     return render_template('register.html', error=error)
  
-@app.route('/home.html', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     error = None
-    id = session['login_user']
-    return render_template('home.html', error=error, name=id)
+    U_id = session['login_user']
+    return render_template('home.html', error=error, U_id=U_id)
 
 
 
