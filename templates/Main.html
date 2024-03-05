@@ -3,31 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <title>MAIN</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"],
+        input[type="button"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        input[type="button"]:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <form method="POST" id="authForm">
     <div>
+        <h1>Hello</h1>
+        <h3>Please Sign-In</h3>
         <p>
-        <h1> Hello</h1>
-        </p>
-        <h3> Please Sign-In</h3>
-        <p>
-            <label for="U_id">서명&nbsp&nbsp&nbsp</label>
+            <label for="U_id">서명</label>
             <input type="text" id="U_id" name="U_id" placeholder="id">
         </p>
- 
+
         <p>
             <label for="U_pw">비밀번호</label>
             <input type="password" id="U_pw" name="U_pw" placeholder="pw">
         </p>
     </div>
-    <input type="submit" name="sign_in" value="sign in" style="WIDTH: 183pt"/>
+    <input type="submit" name="sign_in" value="sign in"/>
     <p>
-        <input type=button style="WIDTH: 183pt; background-color:transparent;  border:2px transparent solid;"
-               value="Register" name="register" onclick="location.href='register'">
+        <input type="button" value="Register" name="register" onclick="location.href='register'">
     </p>
- 
 </form>
- 
 </body>
 </html>

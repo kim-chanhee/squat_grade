@@ -6,8 +6,12 @@
 </head>
 <body>
     <p>
-        <h1> Hello {{U_id}} ! </h1>
-        <h1> your grade is {{grade}}  </h1>
+        <h1>Hello {{ U_id }}!</h1>
+        {% if grade %}
+            <h1>Your grade is {{ grade }}</h1>
+        {% else %}
+            <h1>Your grade is not available</h1>
+        {% endif %}
     </p>
 </body>
 </html>

@@ -55,6 +55,7 @@ def main():
             error = 'invalid input data detected !'
     return render_template('main.html', error = error)
 
+# ==============회원 가입 =====================
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
@@ -81,14 +82,33 @@ def register():
         cursor.close()
         conn.close()
     return render_template('register.html', error=error)
- 
+
+
+# ======================= home ======================
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     error = None
-    U_id = session['login_user']
-    return render_template('home.html', error=error, U_id=U_id)
 
-# ===============================
+    # 로그인한 사용자인지 확인
+    if 'login_user' not in session:
+        # 로그인되지 않은 사용자는 로그인 페이지로 리디렉션
+        return redirect(url_for('main'))
+
+    U_id = session['login_user']
+    # 데이터베이스에서 등급 가져오기
+    conn, cursor = connect_to_mysql()
+    sql = 'SELECT grade FROM login WHERE U_id = %s'
+    cursor.execute(sql, (U_id,))
+    row = cursor.fetchone()
+    grade = row[0] if row else None
+    
+    cursor.close()
+    conn.close()
+
+    return render_template('home.html', error=error, U_id=U_id, grade=grade)
+
+
+# =============== 이미지 전처리 & 등급 ================
 # 이미지 디렉토리 경로
 img_dir = 'C:/CH_Project/자세교정/Model'
 model_path = os.path.join(img_dir, 'CNN_model.h5')
@@ -114,7 +134,7 @@ def upload():
     if 'image' not in request.files:
         return 'No file part'
     
-    # 클라이언트로부터 이미지를 받음
+    # 클라이언트로부터 이미지를 받음 
     image_file = request.files['image']
     
     # 이미지 파일을 numpy 배열로 변환
@@ -128,6 +148,7 @@ def upload():
     
     # 클래스 수 세기
     class_counts = Counter(predicted_classes)
+    # 딕셔너리에서 키가 4인 값을 찾고 , 해당 값이 없으면 기본값으로 0을 반환한다.
     count_4 = class_counts.get(4, 0)
     
     # 등급 지정
@@ -144,7 +165,19 @@ def upload():
     else:
         grade = 'A'
 
-    return render_template('home.html', grade=grade)
+    # UID 받기
+    U_id = request.form['UID'] # 클라이언트가 전송한 UID를 받음
+
+    # 등급을 데이터베이스에 저장
+    conn, cursor = connect_to_mysql()
+    sql = 'UPDATE login SET grade=%s WHERE U_id=%s'
+    value = (grade, U_id)
+    cursor.execute(sql, value)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return 'ss'
 
     # 예측된 클래스와 등급을 JSON 형식으로 반환
     # return jsonify({'grade': grade})  # 예측된 클래스 : 'predicted_classes': predicted_classes.tolist(),
