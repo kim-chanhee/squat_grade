@@ -3,15 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        .grade {
+            font-size: 24px;
+            color: #007bff;
+        }
+    </style>
 </head>
 <body>
-    <p>
-        <h1>Hello {{ U_id }}!</h1>
-        {% if grade %}
-            <h1>Your grade is {{ grade }}</h1>
-        {% else %}
-            <h1>Your grade is not available</h1>
-        {% endif %}
-    </p>
+    <div class="container">
+        <h1>Hello, {{ U_id }}!</h1>
+        <p>
+            {% if grade %}
+                <span class="grade">Your grade is {{ grade }}</span>
+            {% else %}
+                <span class="grade">Your grade is not available</span>
+            {% endif %}
+        </p>
+    </div>
 </body>
 </html>

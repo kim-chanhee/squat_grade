@@ -145,30 +145,17 @@ def upload():
     
     # 이미지를 분류하여 클래스 예측
     predicted_classes = classify_image(img)
-    
-    # 클래스 수 세기
-    class_counts = Counter(predicted_classes)
-    # 딕셔너리에서 키가 4인 값을 찾고 , 해당 값이 없으면 기본값으로 0을 반환한다.
-    count_4 = class_counts.get(4, 0)
-    
-    # 등급 지정
-    if count_4 >= 30:
-        grade = 'F'
-    elif count_4 >= 25:
-        grade = 'E'
-    elif count_4 >= 20:
-        grade = 'D'
-    elif count_4 >= 15:
-        grade = 'C'
-    elif count_4 >= 10:
-        grade = 'B'
-    else:
-        grade = 'A'
+    print(predicted_classes)
+  
+    return str(predicted_classes[0])
 
-    # UID 받기
+@app.route('/grad', methods=['POST'])
+def g_update():
+    # 예측된 클래스와 등급을 JSON 형식으로 반환
+    # return jsonify({'grade': grade})  # 예측된 클래스 : 'predicted_classes': predicted_classes.tolist(),
     U_id = request.form['UID'] # 클라이언트가 전송한 UID를 받음
-
-    # 등급을 데이터베이스에 저장
+    grade = request.form['grade']
+    print(grade)
     conn, cursor = connect_to_mysql()
     sql = 'UPDATE login SET grade=%s WHERE U_id=%s'
     value = (grade, U_id)
@@ -179,10 +166,6 @@ def upload():
 
     return 'ss'
 
-    # 예측된 클래스와 등급을 JSON 형식으로 반환
-    # return jsonify({'grade': grade})  # 예측된 클래스 : 'predicted_classes': predicted_classes.tolist(),
-
-
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5052)
+
