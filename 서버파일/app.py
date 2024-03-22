@@ -3,7 +3,7 @@ import os
 import requests
 import base64
 import pandas as pd
-import csv, pymysql, logging
+import pymysql
 import numpy as np
 import cv2
 from flask import Flask, request, jsonify
@@ -20,16 +20,17 @@ database = "Chan" #RDS DB내에서 연결하고싶은 데이터베이스 이름�
 #workbench연결만 하신분들은 workbench에 들어가서 연결해둔 aws rds에 접속하여 CREATE DATABASE name 하시면 생성됩니다.
 password = "kch43214782"
 
+# MYSQL 데이터베이스에 연결하는 함수
 def connect_to_mysql():
     conn = pymysql.connect(host=host, port=port, user=username, passwd=password, db=database, charset='utf8')
     cursor = conn.cursor()
     return conn, cursor
 
-
+# 메인 페이지의 라우트 설정. GET과 POST 요청에 처리합니다.
 @app.route('/', methods=['GET', 'POST'])
 def main():
     error = None
-
+    # POST 요청 처리 : 사용자 로그인 시도
     if request.method == 'POST':
         U_id = request.form['U_id']
         U_pw = request.form['U_pw']
@@ -47,7 +48,8 @@ def main():
  
         for row in data:
             data = row[0]
- 
+
+        # 데이터가 존재하면 세션에 사용자 정보 저장 후 홈 페이지로 리디렉션
         if data:
             session['login_user'] = U_id
             return redirect(url_for('home'))
@@ -56,6 +58,7 @@ def main():
     return render_template('main.html', error = error)
 
 # ==============회원 가입 =====================
+# 회원 가입 페이지의 라우트 설정
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     error = None
@@ -71,7 +74,8 @@ def register():
         print("로그인 데이터가 성공적으로 삽입되었습니다.")
 
         data = cursor.fetchall()
- 
+
+        # 데이터가 없으면 성공적으로 회원 가입 처리
         if not data:
             conn.commit()
             return redirect(url_for('main'))
@@ -85,6 +89,7 @@ def register():
 
 
 # ======================= home ======================
+# 홈 페이지의 라우트 설정. 로그인한 사용자만 접근 가능합니다.
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     error = None
