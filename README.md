@@ -9,6 +9,7 @@
   2. 프레임 단위 이미지 추출 후 자세 분석
      ![image](https://github.com/kim-chanhee/squat_grade/assets/116836230/96ab720b-cd7c-45e9-8938-341460fa65a8)
 
+![image](https://github.com/kim-chanhee/squat_grade/assets/116836230/2c76c851-1f4f-40ae-b500-384337107318)
 
 [squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
 
