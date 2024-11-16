@@ -1,4 +1,7 @@
-# 스쿼트 자세 등급 판별       [squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
+# 스쿼트 자세 등급 판별       
+[squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
+[김찬희_포폴.pdf](https://github.com/user-attachments/files/17783907/_.pdf)
+
 -----------------------------------------------------
 - 주제 : 스쿼트 자세 교정을 통한 지속적인 운동 습관 유지
 - 문제 상황 : 개인 지도를 받지 못한 사용자가 잘못된 자세로 스쿼트를 수행하여 부상 위험성 증가. 이에 따른 해결 방안 제시
