@@ -1,8 +1,8 @@
 # 스쿼트 자세 등급 판별       
 
-[squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
-
 [김찬희_포폴.pdf](https://github.com/user-attachments/files/17783907/_.pdf)
+
+[squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
 
 -----------------------------------------------------
 - 주제 : 스쿼트 자세 교정을 통한 지속적인 운동 습관 유지
