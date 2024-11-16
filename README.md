@@ -1,6 +1,6 @@
 # 스쿼트 자세 등급 판별       
 
-[김찬희_포폴.pdf](https://github.com/user-attachments/files/17783907/_.pdf)
+[김찬희_포폴.pdf](https://github.com/user-attachments/files/17783911/_.pdf)
 
 [squat_grade.pptx](https://github.com/kim-chanhee/squat_grade/files/14739038/squat_grade.pptx)
 
